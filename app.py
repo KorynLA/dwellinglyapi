@@ -192,6 +192,10 @@ leaseList = [
 # | PUT    | `v1/users/:uid` | Archives a single user |
 # | DELETE | `v1/users/:uid` | Deletes a single user  |
 
+class Home(Resource):
+    def get(self):
+        return "Dwellingly is up and Running"
+
 class User(Resource):
 
     def get(self, uid):
@@ -589,6 +593,7 @@ api.add_resource(Lease, "/v1/leases")
 api.add_resource(Leases, "/v1/leases/<string:id>")
 api.add_resource(Tickets, "/v1/tickets")
 api.add_resource(Ticket, "/v1/tickets/<string:id>")
+api.add_resource(Home, "/")
 
 if __name__ == '__main__':
     app.run(debug=True)  # important to mention debug=True
