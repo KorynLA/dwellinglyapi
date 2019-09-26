@@ -4,3 +4,7 @@ Flask-RESTful==0.3.7
 pytz==2019.1
 datetime 
 gunicorn==19.4.5
+werkzeug==0.15.2
+flask-sqlalchemy
+flask-migrate
+flask-cors
