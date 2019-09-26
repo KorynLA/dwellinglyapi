@@ -4,3 +4,4 @@ Flask-RESTful==0.3.7
 pytz==2019.1
 datetime 
 gunicorn==19.4.5
+Flask-Cors
