@@ -4,10 +4,12 @@ NOTE: no database setup here. Backend uses list-based live data
 
 # Setup Python on  your system
 [Link to Guide](https://realpython.com/installing-python/ "Setup Python")
+# Run
+    pipenv run flask run 
 # Run 
     pip install --no-cache-dir -r requirements.txt
 # Run
-    flask run 
+    pipenv run flask run 
 
 ###Established Endpoints
 

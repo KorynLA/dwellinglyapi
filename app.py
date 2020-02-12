@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required, current_identity
@@ -356,245 +357,42 @@ class EmergencyNumbers(Resource):
         if item:
             item.update(request_data)
         return {"Emergency Number": item}, 200
+=======
+from flask import Flask
+from flask_restful import Api
+from flask_jwt_extended import JWTManager
 
-    def delete(self, id):
-        global emergencyList
-        emergencyList = next(filter(lambda x: x["id"] != id, emergencyList), None)
-        return {"message": "Emergency Number deleted"}
+from resources.user import UserRegister, User, UserLogin
+from resources.property import Properties, Property
 
-
-# multiple propert resources
-class Emergency(Resource):
-    def get(self):
-        return {"Emergency Numbers": emergencyList}, 200 if emergencyList else 404
-
-    def post(self):
-        id = "00000000" + str(len(userList)) 
-        request_data = request.get_json()
-
-        #  "id": "00000001",
-        # "name": "Test Number 1",
-        # "type": "user",
-        # "userid": "user1",
-        # "number": "555-55-1234"
-
-        new_emergency= {
-          "id":id,
-          "name": request_data["name"],
-          "type": request_data["type"],
-          "userid": request_data["userid"],
-          "propertyid": request_data["propertyid"],
-          "number": request_data["number"]
-          }
-        emergencyList.append(new_emergency)
-
-        return new_emergency, 201
+from db import db
+>>>>>>> databaseInt
 
 
-# single tenent resource
-class Tenent(Resource):
+app = Flask(__name__)
+#config DataBase
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True
+app.secret_key = 'dwellingly' #Replace with Random Hash
 
-    def get(self,id):
-        item = next(filter(lambda x: x["id"] == id, tenentsList), None)
-        return {"Tenent": item}, 200 if item else 404
+api = Api(app)
 
-    # "dateCreated": "Thu Aug 23 2018 16:40:35 GMT-0700 (Pacific Daylight Time)",
-    # "dateUpdated": "Thu Aug 23 2018 15:54:48 GMT-0700 (Pacific Daylight Time)",
-    # "lastName": "Smith",
-    # "firstName": "Will",
-    # "phone": "503-555-1234",
-    # "lease": "LEASE-00000002",
-    # "property": "property1"
+db.init_app(app) #need to solve this 
 
-    def patch(self,id):
-        item = next(filter(lambda x: x["id"] == id, tenentsList), None)
-
-        parser = reqparse.RequestParser()
-        parser.add_argument('dateUpdated', help="need a last name")
-        parser.add_argument('lastName', help="need a last name")
-        parser.add_argument('firstName', help="need a First name")
-        parser.add_argument('phone', help="need phone")
-        parser.add_argument('lease', help="need leaseid")
-        parser.add_argument('propertyid', help="need propertyid")
-
-        request_data = parser.parse_args()
-
-        if item:
-            item.update(request_data)
-        return {"Tenent": item}, 200
-
-    def delete(self, id):
-        global tenentsList
-        tenentsList = next(filter(lambda x: x["id"] != id, tenentsList), None)
-        return {"message": "tenent deleted"}
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 
-# multiple propert resources
-class Tenents(Resource):
-    def get(self):
-        return {"Tenents": tenentsList}, 200 if tenentsList else 404
+jwt = JWTManager(app) # /authorization 
 
-    def post(self):
-        id = "tenent" + str(len(userList)) 
-        request_data = request.get_json()
-        dateCreated = "Thu Aug 23 2018 16:40:35 GMT-0700 (Pacific Daylight Time)"
-        dateUpdated = "Thu Aug 23 2018 15:54:48 GMT-0700 (Pacific Daylight Time)"
-        #hard coded because not looking up DateTime right now
-        
-    # "dateCreated": "Thu Aug 23 2018 16:40:35 GMT-0700 (Pacific Daylight Time)",
-    # "dateUpdated": "Thu Aug 23 2018 15:54:48 GMT-0700 (Pacific Daylight Time)",
-    # "lastName": "Smith",
-    # "firstName": "Will",
-    # "phone": "503-555-1234",
-    # "lease": "LEASE-00000002",
-    # "propertyid": "property1"
-
-        new_tenent= {
-          "id":id,
-          "dateCreated": dateCreated,
-          "dateUpdated": dateUpdated,
-          "lastName": request_data["lastName"],
-          "firstName": request_data["firstName"],
-          "phone": request_data["phone"],
-          "lease": request_data["lease"],
-          "propertyid": request_data["propertyid"]
-          }
-        tenentsList.append(new_tenent)
-
-        return new_tenent, 201
-
-
-# single Lease resource
-class Lease(Resource):
-
-    def get(self,id):
-        item = next(filter(lambda x: x["id"] == id, leaseList), None)
-        return {"Lease": item}, 200 if item else 404
-
-        # "id" :"LEASE1",
-        # "propertyId": "property-01",
-        # "dateStart": "Sat Oct 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)",
-        # "dateEnd": "Thu Dec 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)",
-        # "unit": "1D",
-        # "dateUpdated": "Thu Sep 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)"
-
-    def patch(self,id):
-        item = next(filter(lambda x: x["id"] == id, leaseList), None)
-
-        parser = reqparse.RequestParser()
-        parser.add_argument('propertyId', help="need a property")
-        parser.add_argument('dateStart', help="need start date")
-        parser.add_argument('dateEnd', help="need end date")
-        parser.add_argument('unit', help="need unit")
-        parser.add_argument('dateUpdated', help="need Update")
-
-        request_data = parser.parse_args()
-
-        if item:
-            item.update(request_data)
-        return {"Lease": item}, 200
-
-    def delete(self, id):
-        global leaseList
-        leaseList = next(filter(lambda x: x["id"] != id, leaseList), None)
-        return {"message": "lease deleted"}
-
-# multiple propert resources
-class Leases(Resource):
-    def get(self):
-        return {"Leases": leaseList}, 200 if leaseList else 404
-
-    def post(self):
-        id = "LEASE" + str(len(leaseList)) 
-        request_data = request.get_json()
-        dateStart = "Sat Oct 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)"
-        dateEnd = "Thu Dec 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)"
-        dateUpdated = "Thu Sep 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)"
-
-        new_lease= {
-          "id":id,
-          "propertyId": request_data["propertyId"],
-          "unit": request_data["unit"],
-          "dateStart": dateStart,
-          "dateEnd": dateEnd,
-          "dateUpdated": dateUpdated
-          }
-        leaseList.append(new_lease)
-
-        return new_lease, 201
-
-
-class Ticket(Resource):
-
-    def get(self,id):
-        item = next(filter(lambda x: x["id"] == id, ticketsList), None)
-        return {"Ticket": item}, 200 if item else 404
-
-
-    def patch(self,id):
-        item = next(filter(lambda x: x["id"] == id, ticketsList), None)
-
-        parser = reqparse.RequestParser()
-        parser.add_argument('issue')
-        parser.add_argument('tennent', help="need tennent")
-        parser.add_argument('sender', help="need sender")
-        parser.add_argument('status', help="need status")
-        parser.add_argument('urgancy')
-        parser.add_argument('notes')
-        request_data = parser.parse_args()
-
-        if item:
-            item.update(request_data)
-        return {"Tickets": item}, 200
-
-    def delete(self, id):
-        global ticketsList
-        ticketsList = next(filter(lambda x: x["id"] != id, ticketsList), None)
-        message = "Ticket " + id + " deleted"
-        return {"message": message}
-
-
-# multiple propert resources
-class Tickets(Resource):
-    def get(self):
-        return {"Tickets": ticketsList}, 200 if ticketsList else 404
-
-    def post(self):
-        id = "ticket" + str(len(userList)) 
-        request_data = request.get_json()
-        sentDate = "Sat Oct 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)" #fix this
-
-        new_ticket= {
-          "id":id,
-          "sent": sentDate,
-          "status": "New",
-          "urgency": request_data["urgency"],
-          "issue": request_data["issue"],
-          "tennent": request_data["tennent"],
-          "sender": request_data["sender"],
-          "notes": request_data["notes"]
-          }
-        ticketsList.append(new_ticket)
-
-        return new_ticket, 201
-
-
-
-
-#connects the resouces to the url 
-api.add_resource(Users, "/v1/users")
-api.add_resource(User, "/v1/users/<string:uid>")
-api.add_resource(Properties, "/v1/properties")
-api.add_resource(Property, "/v1/properties/<string:id>")
-api.add_resource(Emergency, "/v1/emergencyNumbers")
-api.add_resource(EmergencyNumbers, "/v1/emergencyNumbers/<string:id>")
-api.add_resource(Tenent, "/v1/tenants")
-api.add_resource(Tenents, "/v1/tenants/<string:id>")
-api.add_resource(Lease, "/v1/leases")
-api.add_resource(Leases, "/v1/leases/<string:id>")
-api.add_resource(Tickets, "/v1/tickets")
-api.add_resource(Ticket, "/v1/tickets/<string:id>")
-api.add_resource(Home, "/")
+api.add_resource(UserRegister, '/register')
+api.add_resource(Property,'/properties/<string:name>')
+api.add_resource(Properties,'/properties')
+api.add_resource(User, '/user/<int:user_id>')
+api.add_resource(UserLogin, '/login')
 
 if __name__ == '__main__':
-    app.run(debug=True)  # important to mention debug=True
+    # db.init_app(app) <- not working for some reason 
+    app.run(port=5000, debug=True)
