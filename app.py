@@ -7,9 +7,14 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS'] = True # To allow flask propagating exception even if debug is set to false on app
+app.config['SQLALCHEMY_TRACK_NOTIFICATIONS'] = False
 app.secret_key = 'dwellingly'
 api = Api(app)
 CORS(app)
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 # jwt = JWT(app, authenticate, identity)
 
