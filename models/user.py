@@ -10,9 +10,11 @@ class UserModel(db.Model):
     username = db.Column(db.String(80))
     password = db.Column(db.String(80))
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, role, email):
         self.username = username
         self.password = password
+        self.email = email
+        self.role = role
 
     def save_to_db(self):
         db.session.add(self)

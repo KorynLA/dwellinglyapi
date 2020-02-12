@@ -39,8 +39,12 @@ class User(Resource):
         return {"Message": "User deleted"}, 200
 
 class UserLogin(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('username',type=str,required=True,help="This field cannot be blank.")
+    parser.add_argument('password', type=str, required=True, help="This field cannot be blank.")
+
     def post(self):
-        data = _user_parser.parse_args()
+        data = UserLogin.parser.parse_args()
 
         user = UserModel.find_by_username(data['username'])
 
