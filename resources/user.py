@@ -3,6 +3,9 @@ from models.user import UserModel
 from werkzeug.security import safe_str_cmp
 from flask_jwt_extended import create_access_token, create_refresh_token
 
+
+#TODO Incorporate JWT Claims for Admin privledges
+
 class UserRegister(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('username',type=str,required=True,help="This field cannot be blank.")

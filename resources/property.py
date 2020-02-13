@@ -12,6 +12,7 @@ from models.property import PropertyModel
 # | DELETE | `v1/property/:name`  | Deletes a single property  |
 
 #TODO Add Id based identifiers. 
+#TODO Incorporate JWT Claims for Admin 
 
 class Properties(Resource):
     parser = reqparse.RequestParser()
@@ -49,7 +50,7 @@ class Property(Resource):
     parser.add_argument('zipcode')
     parser.add_argument('state')
 
- 
+    @jwt_required()
     def get(self, name):
         rentalProperty = PropertyModel.find_by_name(name)
 
@@ -65,6 +66,7 @@ class Property(Resource):
             return {'message': 'Property deleted.'}
         return {'message': 'Property not found.'}, 404
 
+    @jwt_required()
     def put(self, name):
         data = Properties.parser.parse_args()
         rentalProperty = PropertyModel.find_by_name(name)
