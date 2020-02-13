@@ -7,6 +7,7 @@ Flask-RESTful==0.3.7
 <<<<<<< HEAD
 pytz==2019.1
 datetime 
+<<<<<<< HEAD
 gunicorn==19.4.5
 Flask-Cors
 =======
@@ -14,3 +15,6 @@ Flask-SQLAlchemy==2.4.1
 Flask-JWT-Extended==3.24.1
 
 >>>>>>> databaseInt
+=======
+gunicorn==19.4.5
+>>>>>>> parent of 5a73595... added CORS
