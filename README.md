@@ -4,6 +4,10 @@ NOTE: no database setup here. Backend uses list-based live data
 
 # Setup Python on  your system
 [Link to Guide](https://realpython.com/installing-python/ "Setup Python")
+# Run 
+virturalenv env 
+# Run
+source env/bin/activate
 # Run
     pipenv run flask run 
 # Run 
@@ -63,133 +67,4 @@ NOTE: no database setup here. Backend uses list-based live data
     "city": "Portland",
     "state": "OR"
   },
-```
-
-<br>
-
-#### ENDPOINT: EMERGENCY NUMBERS
-
-| method | route                      | action                             |
-| :----- | :------------------------- | :--------------------------------- |
-| POST   | `v1/emergencyNumbers/`     | Creates a new emergency number     |
-| GET    | `v1/emergencyNumbers/`     | Gets all emergency numbers         |
-| GET    | `v1/emergencyNumbers/:uid` | Gets a single emergency number     |
-| PATCH  | `v1/emergencyNumbers/:uid` | Updates a single emergency number  |
-| PUT    | `v1/emergencyNumbers/:uid` | Archives a single emergency number |
-| DELETE | `v1/emergencyNumbers/:uid` | Deletes a single emergency number  |
-
-```javascript
-    {
-        "id": "00000001",
-        "name": "Test Number 1",
-        "type": "user",
-        "userid": "user1",
-        "propertyid":"none",
-        "number": "555-55-1234"
-    },
-```
-
-<br>
-
-#### ENDPOINT: TENANTS
-
-| method | route             | action                   |
-| :----- | :---------------- | :----------------------- |
-| POST   | `v1/tenants/`     | Creates a new tenant     |
-| GET    | `v1/tenants/`     | Gets all tenants         |
-| GET    | `v1/tenants/:uid` | Gets a single tenant     |
-| PATCH  | `v1/tenants/:uid` | Updates a single tenant  |
-| PUT    | `v1/tenants/:uid` | Archives a single tenant |
-| DELETE | `v1/tenants/:uid` | Deletes a single tenant  |
-
-
-```javascript
-    {
-    "id": "tenent1",
-    "dateCreated": "Thu Aug 23 2018 16:40:35 GMT-0700 (Pacific Daylight Time)",
-    "dateUpdated": "Thu Aug 23 2018 15:54:48 GMT-0700 (Pacific Daylight Time)",
-    "lastName": "Smith",
-    "firstName": "Will",
-    "phone": "503-555-1234",
-    "lease": "LEASE2",
-    "propertyid": "property1"
-    },
-```
-
-<br>
-
-
-#### ENDPOINT: TICKETS
-
-| method | route             | action                   |
-| :----- | :---------------- | :----------------------- |
-| POST   | `v1/tickets/`     | Creates a new ticket     |
-| GET    | `v1/tickets/`     | Gets all tickets         |
-| GET    | `v1/tickets/:uid` | Gets a single ticket     |
-| PATCH  | `v1/tickets/:uid` | Updates a single ticket  |
-| PUT    | `v1/tickets/:uid` | Archives a single ticket |
-| DELETE | `v1/tickets/:uid` | Deletes a single ticket  |
-
-
-```javascript
- {
-    "id": "ticket1",
-    "issue": "Unpaid Rent",
-    "tenant": {
-            "tenent_id": "defaultUser"
-    },
-    "sender": {
-      "name": "Donald Davis",
-      "number": "541-123-4567",
-      "email": "DD@dwellingly.com"
-    },
-    "sent": "Sat Oct 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)",
-    "status": "New",
-    "urgency": "High",
-    "notes": [
-      {
-        "id": "K-0089ttxqQX-1",
-        "userID": "defaultUser",
-        "sent": "Sat Oct 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)",
-        "message": "Thanks, Tom."
-      },
-      {
-        "id": "K-0089ttxqQX-2",
-        "userID": "defaultUser3",
-        "sent": "Today 3:25pm",
-        "message":
-          "I plan to meet with Megan today. Thank you for contacting JOIN with this issue."
-      },
-      {
-        "id": "K-0089ttxqQX-3",
-        "name": "Tara Mckenzie",
-        "sent": "Today 12:40pm",
-        "message":
-          "This is the third time we have had to deal with late rent. Please speak to tenant ASAP."
-      }
-    ]
-  }
-```
-<br>
-
-#### ENDPOINT: LEASES
-
-| method | route            | action                  |
-| :----- | :--------------- | :---------------------- |
-| POST   | `v1/leases/`     | Creates a new lease     |
-| GET    | `v1/leases/`     | Gets all leases         |
-| GET    | `v1/leases/:uid` | Gets a single lease     |
-| PATCH  | `v1/leases/:uid` | Updates a single lease  |
-| PUT    | `v1/leases/:uid` | Archives a single lease |
-| DELETE | `v1/leases/:uid` | Deletes a single lease  |
-
-```javascript
-     {
-        "id" :"LEASE1",
-        "propertyId": "property-01",
-        "dateStart": "Sat Oct 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)",
-        "dateEnd": "Thu Dec 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)",
-        "unit": "1D",
-        "dateUpdated": "Thu Sep 06 2018 11:00:08 GMT-0700 (Pacific Daylight Time)"
-      },
 ```
