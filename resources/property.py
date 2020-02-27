@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from flask_jwt import JWT, jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_claims
 from db import db
 from models.property import PropertyModel
 
@@ -25,7 +25,7 @@ class Properties(Resource):
     def get(self):
         return {'properties': [property.json() for property in PropertyModel.query.all()]}
     
-    @jwt_required()
+    # @jwt_required()
     def post(self):
         data = Properties.parser.parse_args()
 
@@ -50,7 +50,7 @@ class Property(Resource):
     parser.add_argument('zipcode')
     parser.add_argument('state')
 
-    @jwt_required()
+    # @jwt_required()
     def get(self, name):
         rentalProperty = PropertyModel.find_by_name(name)
 
@@ -58,7 +58,7 @@ class Property(Resource):
             return rentalProperty.json()
         return {'message': 'Property not found'}, 404
     
-    @jwt_required()
+    # @jwt_required()
     def delete(self, name):
         property = PropertyModel.find_by_name(name)
         if property:
@@ -66,7 +66,7 @@ class Property(Resource):
             return {'message': 'Property deleted.'}
         return {'message': 'Property not found.'}, 404
 
-    @jwt_required()
+    # @jwt_required()
     def put(self, name):
         data = Properties.parser.parse_args()
         rentalProperty = PropertyModel.find_by_name(name)

@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
-
+from models.user import UserModel
 from resources.user import UserRegister, User, UserLogin
 from resources.property import Properties, Property
 
@@ -25,6 +25,14 @@ def create_tables():
 
 
 jwt = JWTManager(app) # /authorization 
+
+@jwt.user_claims_loader
+def role_loader(identity):
+    user = UserModel.find_by_id(identity)
+    if user.role == 'admin':
+        return{'is_admin': True}
+    return {'is_admin': False}
+    
 
 api.add_resource(UserRegister, '/register')
 api.add_resource(Property,'/properties/<string:name>')

@@ -15,6 +15,10 @@ source env/bin/activate
 # Run
     pipenv run flask run 
 
+# Postman  Collection link
+https://www.getpostman.com/collections/a86a292798c7895425e2
+
+
 ###Established Endpoints
 
 #### ENDPOINT: USERS
