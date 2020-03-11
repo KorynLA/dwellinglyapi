@@ -26,6 +26,7 @@ class Properties(Resource):
         return {'properties': [property.json() for property in PropertyModel.query.all()]}
     
     # @jwt_required()
+    #@user_is_admin
     def post(self):
         data = Properties.parser.parse_args()
 
@@ -51,6 +52,7 @@ class Property(Resource):
     parser.add_argument('state')
 
     # @jwt_required()
+    #@user_is_admin
     def get(self, name):
         rentalProperty = PropertyModel.find_by_name(name)
 
@@ -59,6 +61,7 @@ class Property(Resource):
         return {'message': 'Property not found'}, 404
     
     # @jwt_required()
+    #@user_is_admin
     def delete(self, name):
         property = PropertyModel.find_by_name(name)
         if property:
@@ -67,6 +70,7 @@ class Property(Resource):
         return {'message': 'Property not found.'}, 404
 
     # @jwt_required()
+    #@user_is_admin
     def put(self, name):
         data = Properties.parser.parse_args()
         rentalProperty = PropertyModel.find_by_name(name)

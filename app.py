@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 from models.user import UserModel
 from resources.user import UserRegister, User, UserLogin
 from resources.property import Properties, Property
-
+from functools import wraps
 from db import db
 
 
@@ -32,7 +32,19 @@ def role_loader(identity):
     if user.role == 'admin':
         return{'is_admin': True}
     return {'is_admin': False}
-    
+
+#custom decorator, JWT is present + user has admin permissions
+def user_is_admin(fn):
+	@wraps(fn)
+	def admin_wrapper(*args, **kwargs):
+		verify_jwt_in_request()
+		user_admin_claim=get_jwt_claims()
+		if(user_admin_claim[is_admin]):
+			return fn(*args, **kwargs)
+		else:
+			return {"message":"Action is not Authorized"}, 403
+	return admin_wrapper
+
 
 api.add_resource(UserRegister, '/register')
 api.add_resource(Property,'/properties/<string:name>')
